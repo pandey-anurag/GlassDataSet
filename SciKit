@@ -1,0 +1,143 @@
+# import load_iris function from datasets module
+from sklearn.datasets import load_iris
+from sklearn.neighbors import KNeighborsClassifier
+# import the class
+from sklearn.linear_model import LogisticRegression
+from sklearn import metrics
+iris = load_iris()
+type(iris)
+# print the iris data
+print(iris.data)
+# print the names of the four features
+print(iris.feature_names)
+# print integers representing the species of each observation
+print(iris.target)
+# print the encoding scheme for species: 0 = setosa, 1 = versicolor, 2 = virginica
+print(iris.target_names)
+# check the types of the features and response
+print(type(iris.data))
+print(type(iris.target))
+# check the shape of the response (single dimension matching the number of observations)
+print(iris.target.shape)
+knn = KNeighborsClassifier(n_neighbors=1)
+print(knn)
+knn.fit(X, y)
+X_new = [[3, 5, 4, 2], [5, 4, 3, 2]]
+knn.predict(X_new)
+logreg = LogisticRegression()
+# fit the model with data
+logreg.fit(X, y)
+# store the predicted response values
+y_pred = logreg.predict(X)
+# compute classification accuracy for the logistic regression model
+print(metrics.accuracy_score(y, y_pred))
+knn = KNeighborsClassifier(n_neighbors=5)
+knn.fit(X, y)
+y_pred = knn.predict(X)
+print(metrics.accuracy_score(y, y_pred))
+# STEP 1: split X and y into training and testing sets
+from sklearn.cross_validation import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=4)
+knn = KNeighborsClassifier(n_neighbors=5)
+knn.fit(X_train, y_train)
+y_pred = knn.predict(X_test)
+print(metrics.accuracy_score(y_test, y_pred))
+# try K=1 through K=25 and record testing accuracy
+k_range = list(range(1, 26))
+scores = []
+for k in k_range:
+    knn = KNeighborsClassifier(n_neighbors=k)
+    knn.fit(X_train, y_train)
+    y_pred = knn.predict(X_test)
+    scores.append(metrics.accuracy_score(y_test, y_pred))
+# import Matplotlib (scientific plotting library)
+import matplotlib.pyplot as plt
+# allow plots to appear within the notebook
+%matplotlib inline
+# plot the relationship between K and testing accuracy
+plt.plot(k_range, scores)
+plt.xlabel('Value of K for KNN')
+plt.ylabel('Testing Accuracy')
+# conventional way to import pandas
+import pandas as pd
+# read CSV file directly from a URL and save the results
+data = pd.read_csv('http://www-bcf.usc.edu/~gareth/ISL/Advertising.csv', index_col=0)
+# display the first 5 rows
+data.head()
+# display the last 5 rows
+data.tail()
+# check the shape of the DataFrame (rows, columns)
+data.shape
+# conventional way to import seaborn
+import seaborn as sns
+# allow plots to appear within the notebook
+%matplotlib inline
+# visualize the relationship between the features and the response using scatterplots
+sns.pairplot(data, x_vars=['TV','Radio','Newspaper'], y_vars='Sales', size=7, aspect=0.7, kind='reg')
+# create a Python list of feature names
+feature_cols = ['TV', 'Radio', 'Newspaper']
+# use the list to select a subset of the original DataFrame
+X = data[feature_cols]
+# equivalent command to do this in one line
+X = data[['TV', 'Radio', 'Newspaper']]
+# print the first 5 rows
+X.head()
+# check the type and shape of X
+print(type(X))
+print(X.shape)
+# select a Series from the DataFrame
+y = data['Sales']
+# equivalent command that works if there are no spaces in the column name
+y = data.Sales
+# print the first 5 values
+y.head()
+# check the type and shape of y
+print(type(y))
+print(y.shape)
+# calculate MAE using scikit-learn
+from sklearn import metrics
+print(metrics.mean_absolute_error(true, pred))
+# calculate MSE using scikit-learn
+print(metrics.mean_squared_error(true, pred))
+#calculate RMSE using scikit-learn
+print(np.sqrt(metrics.mean_squared_error(true, pred)))
+------Use PCA for identifying the major elements---
+Use Hypertool for dimensionality reduction
+Hypertool visualizes in 3D and predicts cluster predicting along the lines of variance
+t-SNE used in scikit for reducing the dimension
+training accuracy rewards overfitting--
+-->tst all model
+-->determine the accuracy
+-->avoiding overfitting
+-->testing accuracy changes based on testing set(high variance estimate)
+k-fold cross-validation--split data into k partition or fold 
+#designate set 1-test u(set2-5)-training
+#train & predict & calculate accuracy
+#repeat k time 
+#average the accuracy
+helps in choosing best model
+ROC curve & Confusion matrix for model evaluation
+k=10 is generally recommended (scientifically)
+Stratified sampling is process of picking homogeneous response data for each fold model
+hyper parameter or tuning parameter for k neighors
+cv=10 (folds) classification accuracy=evaluation metrics
+return scores as numpy array
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
